@@ -1,0 +1,14 @@
+@startuml Sequence Diagram - Search Student Information
+participant User
+participant Browser
+participant WebServer
+participant Database
+
+User -> Browser: 'submits search request'
+Browser -> WebServer: HTTP GET /student_information?name,major,academic_year,gpa,total_credits
+WebServer -> Database: query?name,major,academic_year,gpa,total_credits
+Database -> WebServer: return information search results
+WebServer -> Browser: list/diaplay information search results
+
+
+@enduml

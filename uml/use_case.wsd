@@ -1,0 +1,20 @@
+Use Case Diagram
+@startuml usecase
+
+left to right direction
+
+:User:
+:Admin:
+
+User <|-- Admin
+
+package "Students" {
+    :User: --> (signs up)
+    :User: --> (logs in)
+    :User: --> (searches student info)
+    :User: --> (lists student info)
+    :Admin: --> (creates student information)
+    :Admin: --> (updates student information)
+    :Admin: --> (deletes a students information)
+    :Admin: --> (check graduation eligibility)
+@enduml
