@@ -141,7 +141,33 @@ def create_student():
 @login_required
 @app.route('/students/<int:id>', methods=['GET', 'POST'])
 def update_student(id):
-    return "still working"
+    if current_user.id not in admin_user_ids:
+        flash('Only Administrators can update student.', 'error')
+        return redirect(url_for('list_student'))
+
+    student = Student.query.get_or_404(id)
+
+    form = StudentForm(obj=student)
+
+    if form.validate_on_submit():
+        student.student_name = form.student_name.data
+        student.academic_year = form.academic_year.data
+        student.major = form.major.data  
+
+        try:
+            db.session.commit()
+            flash("Student updated successfully!", "success")
+            return redirect(url_for('list_student'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error updating student: {str(e)}", "error")
+
+    elif form.errors:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash(f"Error in the {field} field - {error}", "error")
+
+    return render_template('update_student.html', form=form, student=student)
 
 @login_required
 @app.route('/students/search', methods=['GET', 'POST'])
