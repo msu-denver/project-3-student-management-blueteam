@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block main %}
+
+{% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+   
+    <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }}
+
+        <p>
+            {{ form.enrollment_date.label }} <br> {{ form.enrollment_date }}
+            {% for error in form.enrollment_date.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </p>
+        
+        <p>
+            {{ form.student_id.label }} <br> {{ form.student_id }}
+            {% for error in form.student_id.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </p>
+        
+        <p>
+            {{ form.student_name.label }} <br> {{ form.student_name }}
+            {% for error in form.student_name.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </p>
+        
+        <p>
+            {{ form.major.label }} <br> {{ form.major }}
+            {% for error in form.major.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </p>
+        
+        <p>
+            {{ form.academic_year.label }} <br> {{ form.academic_year }}
+            {% for error in form.academic_year.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </p>
+        
+        <div class="button-group">
+            <p>{{ form.submit }}</p>
+            <button type="button" class="button" onclick="window.location.href='{{ url_for('list_student') }}'">Return to list</button>
+        </div>
+        
+    </form>
+
+    <script>
+        window.addEventListener('load', () => {
+            const errorMessages = document.querySelectorAll('.error-message');
+            
+            setTimeout(() => {
+                errorMessages.forEach(message => {
+                    message.classList.add('fade-out');
+                });
+            }, 5000); 
+        });
+    </script>
+
+{% endblock %}

@@ -1,3 +1,9 @@
+'''
+CS3250 - Software Development Methods and Tools - Fall 2024
+Instructor: Thyago Mota
+Student(s): Emily, Kayleen, Benjamin, Dennis, Nahum
+Description: Project 3 - Student Management
+'''
 
 from flask import Flask
 import os

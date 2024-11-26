@@ -116,6 +116,10 @@ admin_user_ids = ["111", '123', "admin_user3"]
 @login_required
 @app.route('/students/create', methods=['GET', 'POST'])
 def create_student():
+    if current_user.id not in admin_user_ids:
+        flash('Only Administrators can create student information.', 'error')
+        return redirect(url_for('list_student'))
+    
     form = StudentForm()
 
     if form.validate_on_submit():
