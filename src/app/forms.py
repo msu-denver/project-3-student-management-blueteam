@@ -1,3 +1,9 @@
+'''
+CS3250 - Software Development Methods and Tools - Fall 2024
+Instructor: Thyago Mota
+Student(s): Emily, Kayleen, Benjamin, Dennis, Nahum
+Description: Project 3 - Student Management
+'''
 
 from flask_wtf import FlaskForm
 from wtforms import *
@@ -126,8 +132,8 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Confirm')
 
 class StudentForm(FlaskForm):
-    enrollment_date = DateField('Enrollment Date', format='%Y-%m-%d', validators=[DataRequired()])
-    student_id = StringField('Id')
+    enrollment_date = DateField('Enrollment Date', format='%Y-%m-%d', validators=[])
+    student_id = StringField('Id',validators=[DataRequired()])
     student_name = StringField('Name')
     academic_year = SelectField('Academic Year', choices=[('', '-- Select --'),('freshman', 'Freshman'), ('sophomore', 'Sophomore'),('junior', 'Junior'),('senior', 'Senior')])
     total_gpa = FloatField('Total GPA')
@@ -159,4 +165,11 @@ class GradeForm(FlaskForm):
         else:
             self.semester.choices = [(sem, sem) for sem in all_semesters]
 
-
+class StudentSearchForm(FlaskForm):
+    student_id = StringField('Id')  
+    student_name = StringField('Name')
+    academic_year = SelectField('Academic Year', choices=[('', '-- Select --'), ('freshman', 'Freshman'), ('sophomore', 'Sophomore'), ('junior', 'Junior'), ('senior', 'Senior')])
+    total_gpa = FloatField('Total GPA')
+    total_credits = IntegerField('Total Credits')
+    major = SelectField('Major', choices=[("", "-- Select --")] + [(major, major) for major in MAJORS])
+    submit = SubmitField('Search')
