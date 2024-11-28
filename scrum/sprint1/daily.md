@@ -16,7 +16,7 @@ User Stories for the student management system project were drafted, and revised
 
 ## 11/16/24-11/17/24
 
-No daily sprint meetings conducted on the weekend
+No daily sprint meetings conducted on the weekend. Team members did share progress reports and ideas on on improvements for app and user stories//implementation.
 
 ## 11/18/24-08:00pm
 

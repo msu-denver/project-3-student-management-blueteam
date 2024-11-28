@@ -30,7 +30,7 @@ TODO: estimate of effort in terms of user story points: 1
 
 ## US#3: Search Student Information
 
-As a registered user, I want to search for information by student name, major, academic year, total gpa, and total credits. When I enter my search parameters and click 'confirm', I should be redirected to a section of the application (see US#4) that display's the information by my criteria.
+As a registered user, I want to search for information by student name, student id, major, and academic year. When I enter my search parameters and click 'confirm', I should be redirected to a section of the application (see US#4) that display's the information by my criteria.
 
 ```
 TODO: estimate of effort in terms of user story points: 3
@@ -92,8 +92,8 @@ This section should describe, in general terms, how Scrum was used in this proje
 |Sprint#|Goals|Start|End|Done|Observations|
 |---|---|---|---|---|---|
 |1|US#1, US#2, US#4, US#6|11/14/24|11/21/24|US#1, US#2, US#4, US#6|no observations|
-|2|US#1, US#2, ...|mm/dd/23|mm/dd/23|US#1|...|
-|3|US#1, US#2, ...|mm/dd/23|mm/dd/23|US#1|...|
+|2|US#3, US#5, US#7|11/22/24|11/27/24|US#3, US#5, US#7|no observations|
+|3|US#8, ...|mm/dd/23|mm/dd/23|US#1|...|
 
 As in Project 2, you should take notes on the major sprint meetings: planning, daily scrums, review, and retrospective. Use the scrum folder and the shared templates to record your notes.
 
