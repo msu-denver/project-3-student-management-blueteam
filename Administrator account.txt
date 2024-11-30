@@ -1,0 +1,7 @@
+docker compose up
+
+
+Administrator account：
+
+Username: 123
+Password: 123

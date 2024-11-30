@@ -14,6 +14,12 @@ app.secret_key = 'you will never know'
 
 # db initialization
 from flask_sqlalchemy import SQLAlchemy
+
+#flask run
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Managements.db'
+#db = SQLAlchemy(app)
+
+#Docker compose up
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Managements.db'
 db = SQLAlchemy(app)
 
