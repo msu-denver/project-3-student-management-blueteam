@@ -23,10 +23,10 @@
     <p>
     <div >
         {% if students.has_prev %}
-            <a href="{{ url_for('list_student', page=incidents.prev_num, year=request.args.year, actor_type=request.args.actor_type, motive=request.args.motive, event_type=request.args.event_type, country=request.args.country) }}" >Previous</a>
+            <a href="{{ url_for('list_student', page=students.prev_num, student_id=request.args.student_id, student_name=request.args.student_name, academic_year=request.args.academic_year, major=request.args.major, total_gpa=request.args.total_gpa, total_credits=request.args.total_credits, enrollment_date=request.args.enrollment_date) }}" >Previous</a>
         {% endif %}
         {% if students.has_next %}
-            <a href="{{ url_for('list_student', page=incidents.next_num, year=request.args.year, actor_type=request.args.actor_type, motive=request.args.motive, event_type=request.args.event_type, country=request.args.country) }}" >Next</a>
+            <a href="{{ url_for('list_student', page=students.next_num, student_id=request.args.student_id, student_name=request.args.student_name, academic_year=request.args.academic_year, major=request.args.major, total_gpa=request.args.total_gpa, total_credits=request.args.total_credits, enrollment_date=request.args.enrollment_date) }}" >Next</a>
         {% endif %}
     </div>
     </p>

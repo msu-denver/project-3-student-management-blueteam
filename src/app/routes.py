@@ -222,18 +222,94 @@ def delete_student(id):
     return redirect(url_for('list_student'))
 
 #All of the following functions are graduation parts
+def calculate_totals(grades):
+    total_gpa = sum(grade.gpa for grade in grades) / len(grades)
+    total_credits = sum(grade.credits for grade in grades)
+    return total_gpa, total_credits
+
+def check_graduation_eligibility(total_gpa, total_credits):
+    return total_gpa >= 2.0 and total_credits >= 120
+
 @login_required
 @app.route('/students/<int:student_id>/grades', methods=['GET', 'POST'])
 def manage_grades(student_id):
-    return "still working"
+    if current_user.id not in admin_user_ids:
+        flash('Only Administrators can manage grades.', 'error')
+        return redirect(url_for('list_student'))
+
+    student = Student.query.get_or_404(student_id)
+    form = GradeForm()
+
+    all_semesters = ['Freshman', 'Sophomore', 'Junior', 'Senior']
+
+    current_academic_year = student.academic_year.capitalize()
+
+    grades = Grade.query.filter_by(student_id=student_id).all()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        if form.semester.data not in all_semesters[:all_semesters.index(current_academic_year) + 1]:
+            flash(f"You cannot add grades for {form.semester.data} as it is beyond the student's academic year.", "error")
+            return render_template('manage_grades.html', student=student, grades=grades, form=form)
+
+        grade = Grade.query.filter_by(student_id=student_id, semester=form.semester.data).first()
+        if grade:
+            grade.gpa = form.gpa.data
+            grade.credits = form.credits.data
+            flash(f"Updated grade for {form.semester.data}.", "success")
+        else:
+            new_grade = Grade(
+                student_id=student_id,
+                semester=form.semester.data,
+                gpa=form.gpa.data,
+                credits=form.credits.data
+            )
+            db.session.add(new_grade)
+            flash(f"Added new grade for {form.semester.data}.", "success")
+
+        db.session.commit()
+        return redirect(url_for('manage_grades', student_id=student_id))
+
+    return render_template('manage_grades.html', student=student, grades=grades, form=form)
 
 @login_required
 @app.route('/students/<int:student_id>/graduation', methods=['GET'])
 def view_transcript(student_id):
-    return "still working"
+ 
+    student = Student.query.get_or_404(student_id)
+
+    grades = Grade.query.filter_by(student_id=student_id).all()
+
+    if not grades:
+        grades = [
+            Grade(student_id=student_id, semester='Freshman', gpa=0.0, credits=0),
+            Grade(student_id=student_id, semester='Sophomore', gpa=0.0, credits=0),
+            Grade(student_id=student_id, semester='Junior', gpa=0.0, credits=0),
+            Grade(student_id=student_id, semester='Senior', gpa=0.0, credits=0),
+        ]
+        db.session.add_all(grades)
+        db.session.commit()
+
+    total_gpa = sum(grade.gpa for grade in grades) / len(grades)
+    total_credits = sum(grade.credits for grade in grades)
+
+    student.total_gpa = total_gpa
+    student.total_credits = total_credits
+    db.session.commit() 
+
+    return render_template('transcript.html',student=student, grades=grades, total_gpa=total_gpa, total_credits=total_credits)
+
 
 
 @login_required
 @app.route('/students/<int:student_id>/graduation_check', methods=['POST'])
 def graduation_check(student_id):
-    return "still working"
+  
+    student = Student.query.get_or_404(student_id)
+
+    is_senior = student.academic_year == 'senior'
+    meets_gpa = student.total_gpa >= 2.0
+    meets_credits = student.total_credits >= 120
+
+    eligible = is_senior and meets_gpa and meets_credits
+
+    return {"eligible": eligible}, 200
