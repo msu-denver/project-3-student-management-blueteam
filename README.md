@@ -70,7 +70,7 @@ TODO: estimate of effort in terms of user story points: 1
 
 ## US#8: Graduation
 
-As an administrator, I would like to be able to confirm that a student satisfies the requirements for graduation.  When I provide a student's ID, it should be possible to view the student's transcript and manage grades. At the same time, I will be able to retrieve the student's grade information for each semester from the database and add it up. If the credit is greater than 120 and the GPA is greater than 2.0, the student has satisfied the graduation requirements and is approved for graduation.
+As an user, I would like to be able to confirm that a student satisfies the requirements for graduation.  When I provide a student's ID, it should be possible to view the student's transcript and manage grades. At the same time, I will be able to retrieve the student's grade information for each semester from the database and add it up. If the credit is greater than 120 and the GPA is greater than 2.0, the student has satisfied the graduation requirements and is approved for graduation.
 
 ```
 TODO: estimate of effort in terms of user story points: 8
