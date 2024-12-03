@@ -27,7 +27,7 @@ class Major(db.Model):
 class Student(db.Model):  
     __tablename__ = 'students' 
     enrollment_date = db.Column(db.Date, nullable=False, default=date.today)
-    student_id = db.Column(db.String, primary_key=True)  
+    student_id = db.Column(db.Integer, primary_key=True)  
     student_name = db.Column(db.String, nullable=False)  
     academic_year = db.Column(db.String)  
     total_gpa = db.Column(db.Float, default=0.0)  
