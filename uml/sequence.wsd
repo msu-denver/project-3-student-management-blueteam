@@ -41,7 +41,7 @@ group Access Create Student Form
     end
 
     RegularUser -> App: "Access create Form"
-    App -> RegularUser: "Redirect to /students with error"
+    App -> RegularUser: "Redirect to students with error"
     App -> RegularUser: "Show 'Access Denied' Message"
 end
 
@@ -63,7 +63,7 @@ group Access Delete Student
     App -> RegularUser: "Show 'Access Denied' Message"
 end
 
-RegularUser -> App: "Access /students/<id>/graduation_check"
+RegularUser -> App: "Access graduation check"
 App -> DB: "Fetch Student and Grades"
 App -> DB: "Calculate Total GPA and Credits"
 alt Check graduation requirements
