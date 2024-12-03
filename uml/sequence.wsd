@@ -6,15 +6,16 @@ actor Visitor
 participant WebApp as App
 participant Database as DB
 
-
 Visitor -> App: "Access signup"
 App -> Visitor: "Show Sign-Up Form"
 Visitor -> App: "Submit Sign-Up Form"
 App -> DB: "Check User ID Availability"
+DB -> App: "User ID availability result"
 alt User ID exists
     App -> Visitor: "Redirect to id taken"
 else User ID is unique
     App -> DB: "Save New User Details"
+    DB -> App: "Confirmation of Save"
     App -> Visitor: "Redirect to index"
 end
 
@@ -22,6 +23,7 @@ Visitor -> App: "Access login"
 App -> Visitor: "Show Login Form"
 Visitor -> App: "Submit Login Form"
 App -> DB: "Fetch User Credentials"
+DB -> App: "User Credentials"
 alt Password matches
     App -> Visitor: "Redirect to students"
 else Password does not match
@@ -33,10 +35,12 @@ group Access Create Student Form
     App -> AdminUser: "Show Create Student Form"
     AdminUser -> App: "Submit Create Student Form"
     App -> DB: "Check for Existing Student ID"
+    DB -> App: "Existing Student ID Result"
     alt Student ID exists
         App -> AdminUser: "Show Error"
     else Student ID is unique
         App -> DB: "Save New Student Details"
+        DB -> App: "Confirmation of Save"
         App -> AdminUser: "Redirect to /students"
     end
 
@@ -49,6 +53,7 @@ RegularUser -> App: "Access search"
 App -> RegularUser: "Show Search Form"
 RegularUser -> App: "Submit Search information"
 App -> DB: "Fetch Matching Students"
+DB -> App: "Matching Students Data"
 App -> RegularUser: "Display Search Results"
 
 group Access Delete Student
@@ -56,6 +61,7 @@ group Access Delete Student
     App -> DB: "Fetch Student and Related Grades"
     App -> DB: "Delete Grades"
     App -> DB: "Delete Student Record"
+    DB -> App: "Confirmation of Student Deletion"
     App -> AdminUser: "Redirect to students"
 
     RegularUser -> App: "Delete request"
@@ -65,7 +71,10 @@ end
 
 RegularUser -> App: "Access graduation check"
 App -> DB: "Fetch Student and Grades"
+DB -> App: "Student and Grades Data"
 App -> DB: "Calculate Total GPA and Credits"
+DB -> App: "Graduation Calculation Results"
+
 alt Check graduation requirements
     App -> RegularUser: "Eligible for Graduation"
 else Does not meet requirements
