@@ -10,7 +10,7 @@ services:
       - POSTGRES_PASSWORD=135791
     volumes: 
       - C:\Users\zhao1\project-3-student-management-blueteam\postgres:/var/lib/postgresql/data
-      - /Users/emilymelendez/Downloads/cs3250/inclass/project-3-student-management-blueteam/postgres:/var/lib/postgresql/data
+      #- /Users/emilymelendez/Downloads/cs3250/inclass/project-3-student-management-blueteam/postgres:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       interval: 10s

@@ -14,3 +14,5 @@ Werkzeug==2.3.7
 WTForms==3.0.1
 psycopg2-binary==2.9.9
 Flask-Caching==2.3.0
+selenium==4.5.0 
+coverage==7.6.8
