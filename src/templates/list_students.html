@@ -87,6 +87,7 @@
     <p />
     <button type="button" class="button" onclick="simple_action('{{ url_for('create_student') }}')">Create Student</button>
     <button type="button" class="button" onclick="simple_action('{{ url_for('search_student') }}')">Search Student</button>
+    <button type="button" class="button" onclick="simple_action('{{ url_for('list_student') }}')">Refresh list</button>
     <button type="button" class="button" onclick="simple_action('{{ url_for('signout') }}')">Sign Out</button>
 
 <script>
@@ -120,7 +121,7 @@
                     redLight.className = "graduation-light red-light";
                     statusText.textContent = "Denied graduation";
                     alert(
-                        `Graduation Denied.\nReason:\nGPA must be > 2.0 \nCredits must be > 120`
+                        `Graduation Denied.\nReason:\nAcademic year requires senior\nGPA must be > 2.0 \nCredits must be > 120`
                     );
                 }
             })

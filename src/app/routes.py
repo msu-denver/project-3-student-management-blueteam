@@ -133,6 +133,7 @@ def create_student():
             student_name=form.student_name.data,
             academic_year=form.academic_year.data,
             major=form.major.data,
+            enrollment_date=form.enrollment_date.data
         )
 
         db.session.add(new_student)
@@ -286,8 +287,6 @@ def view_transcript(student_id):
             Grade(student_id=student_id, semester='Junior', gpa=0.0, credits=0),
             Grade(student_id=student_id, semester='Senior', gpa=0.0, credits=0),
         ]
-        db.session.add_all(grades)
-        db.session.commit()
 
     total_gpa = sum(grade.gpa for grade in grades) / len(grades)
     total_credits = sum(grade.credits for grade in grades)

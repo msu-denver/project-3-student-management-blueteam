@@ -5,7 +5,6 @@ class User {
     name
     about
     passwd
-    admin 
 }
 
 class Major { 
@@ -34,6 +33,6 @@ Student -[hidden]-> Major
 Major -[hidden]-> Grade
 
 Student "N" o-> "1" Major: major
-Student "N" o-> "N" Grade: grade
+Grade "N" o--> "1" Student: student
 
 @enduml
