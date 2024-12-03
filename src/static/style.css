@@ -109,3 +109,8 @@ input[type=submit] {
   margin-left: 5px;
 }
 
+.readonly-input {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+  color: #6c757d;
+}
