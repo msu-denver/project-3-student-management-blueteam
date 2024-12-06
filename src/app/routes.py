@@ -281,7 +281,7 @@ def delete_student(id):
 
 
 def calculate_totals(grades):
-    total_gpa = sum(grade.gpa for grade in grades) / len(grades)
+    total_gpa = round(sum(grade.gpa for grade in grades) / len(grades), 2) 
     total_credits = sum(grade.credits for grade in grades)
     return total_gpa, total_credits
 

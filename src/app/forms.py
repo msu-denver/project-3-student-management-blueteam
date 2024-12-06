@@ -118,24 +118,44 @@ MAJORS = [
     'Video Production Major, B.S.'
 ]
 
+
 class SignUpForm(FlaskForm):
     id = StringField('Id', validators=[DataRequired()])
     name = StringField('Name', validators=[DataRequired()])
     about = TextAreaField('About')
     passwd = PasswordField('Password', validators=[DataRequired()])
-    passwd_confirm = PasswordField('Confirm Password', validators=[DataRequired()])
+    passwd_confirm = PasswordField(
+        'Confirm Password', validators=[
+            DataRequired()])
     submit = SubmitField('Confirm')
+
 
 class LoginForm(FlaskForm):
     id = StringField('Id', validators=[DataRequired()])
     passwd = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Confirm')
 
+
 class StudentForm(FlaskForm):
-    enrollment_date = DateField('Enrollment Date', format='%Y-%m-%d', validators=[])
-    student_id = StringField('Id',validators=[DataRequired()])
+    enrollment_date = DateField(
+        'Enrollment Date',
+        format='%Y-%m-%d',
+        validators=[])
+    student_id = StringField('Id', validators=[DataRequired()])
     student_name = StringField('Name')
-    academic_year = SelectField('Academic Year', choices=[('', '-- Select --'),('freshman', 'Freshman'), ('sophomore', 'Sophomore'),('junior', 'Junior'),('senior', 'Senior')])
+    academic_year = SelectField(
+        'Academic Year',
+        choices=[
+            ('',
+             '-- Select --'),
+            ('freshman',
+             'Freshman'),
+            ('sophomore',
+             'Sophomore'),
+            ('junior',
+             'Junior'),
+            ('senior',
+             'Senior')])
     total_gpa = FloatField('Total GPA')
     total_credits = IntegerField('Total Credits')
     major = SelectField('Major', choices=[("", "")])
@@ -143,10 +163,12 @@ class StudentForm(FlaskForm):
 
     def __init__(self, *args, **kwargs):
         super(StudentForm, self).__init__(*args, **kwargs)
-        self.major.choices = [('', '-- Select --')] + [(major, major) for major in MAJORS]
+        self.major.choices = [('', '-- Select --')] + \
+            [(major, major) for major in MAJORS]
+
 
 class GradeForm(FlaskForm):
-    semester = SelectField('Semester',choices=[],  validators=[DataRequired()])
+    semester = SelectField('Semester', choices=[], validators=[DataRequired()])
     gpa = FloatField('GPA', validators=[NumberRange(min=0.0, max=4.0)])
     credits = IntegerField('Credits', validators=[NumberRange(min=0, max=40)])
     submit = SubmitField('Submit')
@@ -154,22 +176,41 @@ class GradeForm(FlaskForm):
     def __init__(self, academic_year=None, *args, **kwargs):
         super(GradeForm, self).__init__(*args, **kwargs)
         all_semesters = ['Freshman', 'Sophomore', 'Junior', 'Senior']
-        
+
         if academic_year:
             formatted_year = academic_year.capitalize()
             if formatted_year in all_semesters:
                 max_index = all_semesters.index(formatted_year)
-                self.semester.choices = [(sem, sem) for sem in all_semesters[:max_index + 1]]
+                self.semester.choices = [
+                        (sem, sem)
+                        for sem in all_semesters[:max_index + 1]
+                ]
             else:
                 self.semester.choices = [(sem, sem) for sem in all_semesters]
         else:
             self.semester.choices = [(sem, sem) for sem in all_semesters]
 
+
 class StudentSearchForm(FlaskForm):
-    student_id = StringField('Id')  
+    student_id = StringField('Id')
     student_name = StringField('Name')
-    academic_year = SelectField('Academic Year', choices=[('', '-- Select --'), ('freshman', 'Freshman'), ('sophomore', 'Sophomore'), ('junior', 'Junior'), ('senior', 'Senior')])
+    academic_year = SelectField(
+        'Academic Year',
+        choices=[
+            ('',
+             '-- Select --'),
+            ('freshman',
+             'Freshman'),
+            ('sophomore',
+             'Sophomore'),
+            ('junior',
+             'Junior'),
+            ('senior',
+             'Senior')])
     total_gpa = FloatField('Total GPA')
     total_credits = IntegerField('Total Credits')
-    major = SelectField('Major', choices=[("", "-- Select --")] + [(major, major) for major in MAJORS])
+    major = SelectField(
+        'Major',
+        choices=[("", "-- Select --")] + [(major, major) for major in MAJORS]
+        )
     submit = SubmitField('Search')
