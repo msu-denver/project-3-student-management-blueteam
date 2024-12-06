@@ -23,6 +23,7 @@ def index():
 
 @app.route('/users/signup', methods=['GET', 'POST'])
 def signup():
+    """sign-up route"""
     form = SignUpForm() 
     if form.validate_on_submit():
         id_exists = User.query.filter_by(id=form.id.data).first()
@@ -41,10 +42,12 @@ def signup():
 
 @app.route('/users/useridtaken', methods=['GET', 'POST'])
 def id_taken():
+    """Render user ID taken error page"""
     return render_template('useridtaken.html')
 
 @app.route('/users/login', methods=['GET', 'POST'])
 def login():
+    """User login route"""
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(id=form.id.data).first()
@@ -59,6 +62,7 @@ def login():
 
 @app.route('/users/login_error', methods=['GET', 'POST'])
 def login_error():
+    """render login error page"""
     return render_template('login_error.html')
 
 @login_required
@@ -70,6 +74,7 @@ def signout():
 @login_required
 @app.route('/students')
 def list_student():
+    """List students with filtering and pagination"""
     form = StudentForm()
 
     student_id = request.args.get('student_id')

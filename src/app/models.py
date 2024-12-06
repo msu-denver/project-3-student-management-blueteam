@@ -9,6 +9,7 @@ from flask_login import UserMixin
 from app import db
 from datetime import date
 
+# User model 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.String, primary_key=True)
@@ -16,6 +17,7 @@ class User(db.Model, UserMixin):
     about = db.Column(db.String)
     passwd = db.Column(db.LargeBinary)
 
+# Major model
 class Major(db.Model):
     __tablename__ = 'majors'
     id = db.Column(db.Integer, primary_key=True)
@@ -24,6 +26,7 @@ class Major(db.Model):
     def __repr__(self):
         return f"<Major(id={self.id}, name='{self.name}')>"
 
+# Student model
 class Student(db.Model):  
     __tablename__ = 'students' 
     enrollment_date = db.Column(db.Date, nullable=False, default=date.today)
@@ -36,7 +39,8 @@ class Student(db.Model):
 
     def __str__(self):
         return f'<Student(id={self.student_id}, name={self.student_name}, gpa={self.gpa}, credits={self.credits}, major={self.major})>'
-    
+
+# Grade model
 class Grade(db.Model):
     __tablename__ = 'grades'
 

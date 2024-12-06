@@ -9,6 +9,7 @@ from flask_wtf import FlaskForm
 from wtforms import *
 from wtforms.validators import DataRequired, InputRequired, NumberRange
 
+# List if majors for the form
 MAJORS = [
     'Accounting Major, B.S.',
     'Advanced Manufacturing Sciences Major, B.S.',
@@ -118,6 +119,7 @@ MAJORS = [
     'Video Production Major, B.S.'
 ]
 
+# Form for user signup
 class SignUpForm(FlaskForm):
     id = StringField('Id', validators=[DataRequired()])
     name = StringField('Name', validators=[DataRequired()])
@@ -126,11 +128,13 @@ class SignUpForm(FlaskForm):
     passwd_confirm = PasswordField('Confirm Password', validators=[DataRequired()])
     submit = SubmitField('Confirm')
 
+# Form for user login
 class LoginForm(FlaskForm):
     id = StringField('Id', validators=[DataRequired()])
     passwd = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Confirm')
 
+# Form for student details
 class StudentForm(FlaskForm):
     enrollment_date = DateField('Enrollment Date', format='%Y-%m-%d', validators=[])
     student_id = StringField('Id',validators=[DataRequired()])
@@ -145,6 +149,7 @@ class StudentForm(FlaskForm):
         super(StudentForm, self).__init__(*args, **kwargs)
         self.major.choices = [('', '-- Select --')] + [(major, major) for major in MAJORS]
 
+# Form for grade details
 class GradeForm(FlaskForm):
     semester = SelectField('Semester',choices=[],  validators=[DataRequired()])
     gpa = FloatField('GPA', validators=[NumberRange(min=0.0, max=4.0)])
@@ -165,6 +170,7 @@ class GradeForm(FlaskForm):
         else:
             self.semester.choices = [(sem, sem) for sem in all_semesters]
 
+# Form for searching students records
 class StudentSearchForm(FlaskForm):
     student_id = StringField('Id')  
     student_name = StringField('Name')
