@@ -18,12 +18,12 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 #flask run
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Managements.db'
-#db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Managements.db'
+db = SQLAlchemy(app)
 
 #Docker compose up
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:135791@postgres:5432/authentication?client_encoding=utf8'
-db.init_app(app)
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:135791@postgres:5432/authentication?client_encoding=utf8'
+#db.init_app(app)
 
 # models initialization
 from app import models
