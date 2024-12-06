@@ -93,7 +93,7 @@ This section should describe, in general terms, how Scrum was used in this proje
 |---|---|---|---|---|---|
 |1|US#1, US#2, US#4, US#6|11/14/24|11/21/24|US#1, US#2, US#4, US#6|no observations|
 |2|US#3, US#5, US#7|11/22/24|11/27/24|US#3, US#5, US#7|no observations|
-|3|US#8, ...|mm/dd/23|mm/dd/23|US#1|...|
+|3|US#8, Testing, ... |11/29/24|12/05/24|US#8, Testing, ... |no observations|
 
 As in Project 2, you should take notes on the major sprint meetings: planning, daily scrums, review, and retrospective. Use the scrum folder and the shared templates to record your notes.
 
