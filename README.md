@@ -2,6 +2,8 @@
 
 Use this section to outline the vision for the product, including a **use case diagram** that illustrates the main user interactions. This will provide readers with a comprehensive overview of the project.
 
+![pics/use_case.png](pics/use_case.png)
+
 ## The Vision
 
 Managing student records is a often unecessarily difficult yet crucial task for educational institutions. Imagine a web app that tranfroms this process by innovating the way we store, search, and manage student information. Doing so more efficiently and providing an easy to use interface. This tool will be crucial in simplifying student management for educational institutions.
@@ -84,6 +86,8 @@ At least one **user story**, unrelated to user creation or authentication, must 
 ## Model 
 
 Include a class diagram that clearly describes the model classes used in the project and their associations.
+
+![pics/class.png](pics/class.png)
 
 # Development Process 
 
