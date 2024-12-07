@@ -101,6 +101,8 @@ As in Project 2, you should take notes on the major sprint meetings: planning, d
 
 In this section, share the results of the tests performed to verify the quality of the developed product, including the test coverage in relation to the written code. There is no minimum code coverage requirement, but ensure there is at least some coverage through one white-box test and one black-box test.
 
+White box testing: In this test the Student model was tested using a unit test to see if a student's information is in the database. The total test coverage was 46%. 
+
 # Deployment 
 
 The final product must demonstrate the integrity of at least 5 out of the 6 planned user stories. It should be packaged as a Docker image and be deployable using:
