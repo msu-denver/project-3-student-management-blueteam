@@ -15,16 +15,18 @@ from sqlalchemy import cast
 from sqlalchemy.types import String
 import bcrypt
 
+
 @app.route('/')
 @app.route('/index')
 @app.route('/index.html')
-def index(): 
+def index():
     return render_template('index.html')
+
 
 @app.route('/users/signup', methods=['GET', 'POST'])
 def signup():
     """sign-up route"""
-    form = SignUpForm() 
+    form = SignUpForm()
     if form.validate_on_submit():
         id_exists = User.query.filter_by(id=form.id.data).first()
         if id_exists:
@@ -32,18 +34,20 @@ def signup():
         if form.passwd.data == form.passwd_confirm.data:
             salt = bcrypt.gensalt()
             hashed_password = bcrypt.hashpw(form.passwd.data.encode(), salt)
-            user = User(id=form.id.data, name=form.name.data, about=form.about.data, passwd=hashed_password) 
+            user = User(id=form.id.data, name=form.name.data, about=form.about.data, passwd=hashed_password)
             db.session.add(user)
             db.session.commit()
-                        
+
             return redirect(url_for('index'))
 
     return render_template('signup.html', form=form)
+
 
 @app.route('/users/useridtaken', methods=['GET', 'POST'])
 def id_taken():
     """Render user ID taken error page"""
     return render_template('useridtaken.html')
+
 
 @app.route('/users/login', methods=['GET', 'POST'])
 def login():
@@ -53,23 +57,26 @@ def login():
         user = User.query.filter_by(id=form.id.data).first()
         if user:
             if user and bcrypt.checkpw(form.passwd.data.encode(), user.passwd):
-                login_user(user)             
-                return redirect(url_for('list_student'))          
+                login_user(user)
+                return redirect(url_for('list_student'))
             else:
                 return redirect(url_for('login_error'))
-          
+
     return render_template('login.html', form=form)
+
 
 @app.route('/users/login_error', methods=['GET', 'POST'])
 def login_error():
     """render login error page"""
     return render_template('login_error.html')
 
+
 @login_required
 @app.route('/users/signout', methods=['GET', 'POST'])
 def signout():
-    logout_user()  
+    logout_user()
     return redirect(url_for('index'))
+
 
 @login_required
 @app.route('/students')
@@ -86,7 +93,7 @@ def list_student():
     enrollment_date = request.args.get('enrollment_date')
 
     page = request.args.get('page', 1, type=int)
-    per_page = 10  
+    per_page = 10
 
     query = Student.query
 
@@ -115,8 +122,10 @@ def list_student():
         total_pages=students.pages,
     )
 
-#Users classified as Admin //put your id to test create incident
+
+# Users classified as Admin //put your id to test create incident
 admin_user_ids = ["111", '123', "admin_user3"]
+
 
 @login_required
 @app.route('/students/create', methods=['GET', 'POST'])
@@ -124,7 +133,7 @@ def create_student():
     if current_user.id not in admin_user_ids:
         flash('Only Administrators can create student information.', 'error')
         return redirect(url_for('list_student'))
-    
+
     form = StudentForm()
 
     if form.validate_on_submit():
@@ -148,6 +157,7 @@ def create_student():
 
     return render_template('create_student.html', form=form)
 
+
 @login_required
 @app.route('/students/<int:id>', methods=['GET', 'POST'])
 def update_student(id):
@@ -162,7 +172,7 @@ def update_student(id):
     if form.validate_on_submit():
         student.student_name = form.student_name.data
         student.academic_year = form.academic_year.data
-        student.major = form.major.data  
+        student.major = form.major.data
 
         try:
             db.session.commit()
@@ -179,12 +189,13 @@ def update_student(id):
 
     return render_template('update_student.html', form=form, student=student)
 
+
 @login_required
 @app.route('/students/search', methods=['GET', 'POST'])
 def search_student():
     form = StudentSearchForm()
 
-    if form.validate_on_submit(): 
+    if form.validate_on_submit():
         search_params = {}
 
         if form.student_id.data:
@@ -207,13 +218,14 @@ def search_student():
 
     return render_template('search_student.html', form=form)
 
+
 @login_required
 @app.route('/students/<int:id>/delete', methods=['GET', 'POST'])
 def delete_student(id):
     if current_user.id not in admin_user_ids:
         flash('Only Administrators can delete student.', 'error')
         return redirect(url_for('list_student'))
-    
+
     student = Student.query.get_or_404(id)
     try:
         Grade.query.filter_by(student_id=id).delete()
@@ -227,14 +239,17 @@ def delete_student(id):
 
     return redirect(url_for('list_student'))
 
-#All of the following functions are graduation parts
+
+# All of the following functions are graduation parts
 def calculate_totals(grades):
     total_gpa = sum(grade.gpa for grade in grades) / len(grades)
     total_credits = sum(grade.credits for grade in grades)
     return total_gpa, total_credits
 
+
 def check_graduation_eligibility(total_gpa, total_credits):
     return total_gpa >= 2.0 and total_credits >= 120
+
 
 @login_required
 @app.route('/students/<int:student_id>/grades', methods=['GET', 'POST'])
@@ -277,10 +292,11 @@ def manage_grades(student_id):
 
     return render_template('manage_grades.html', student=student, grades=grades, form=form)
 
+
 @login_required
 @app.route('/students/<int:student_id>/graduation', methods=['GET'])
 def view_transcript(student_id):
- 
+
     student = Student.query.get_or_404(student_id)
 
     grades = Grade.query.filter_by(student_id=student_id).all()
@@ -298,16 +314,15 @@ def view_transcript(student_id):
 
     student.total_gpa = total_gpa
     student.total_credits = total_credits
-    db.session.commit() 
+    db.session.commit()
 
-    return render_template('transcript.html',student=student, grades=grades, total_gpa=total_gpa, total_credits=total_credits)
-
+    return render_template('transcript.html', student=student, grades=grades, total_gpa=total_gpa, total_credits=total_credits)
 
 
 @login_required
 @app.route('/students/<int:student_id>/graduation_check', methods=['POST'])
 def graduation_check(student_id):
-  
+
     student = Student.query.get_or_404(student_id)
 
     is_senior = student.academic_year == 'senior'
