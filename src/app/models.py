@@ -41,19 +41,35 @@ class Student(db.Model):
     major = db.Column(db.String, nullable=False)
 
     def __str__(self):
-        return f'<Student(id={self.student_id}, name={self.student_name}, gpa={self.gpa}, credits={self.credits}, major={self.major})>'
+        return (
+            f"<Grade(student_id={self.student_id}, "
+            f"term='{self.semester}', "
+            f"gpa={self.gpa}, "
+            f"credits={self.credits})>"
+        )
 
 
 # Grade model
 class Grade(db.Model):
     __tablename__ = 'grades'
 
-    student_id = db.Column(db.Integer, db.ForeignKey('students.student_id'), nullable=False, primary_key=True)
+    student_id = db.Column(
+        db.Integer,
+        db.ForeignKey('students.student_id'),
+        nullable=False,
+        primary_key=True)
     semester = db.Column(db.String, nullable=False, primary_key=True)
     gpa = db.Column(db.Float, default=0.0)
     credits = db.Column(db.Integer, default=0)
 
-    student = db.relationship('Student', backref=db.backref('grades', lazy=True))
+    student = db.relationship(
+        'Student', backref=db.backref(
+            'grades', lazy=True))
 
     def __str__(self):
-        return f"<Grade(student_id={self.student_id}, term='{self.semester}', gpa={self.gpa}, credits={self.credits})>"
+        return (
+            f"<Grade(student_id={self.student_id}, "
+            f"term='{self.semester}', "
+            f"gpa={self.gpa}, "
+            f"credits={self.credits})>"
+        )

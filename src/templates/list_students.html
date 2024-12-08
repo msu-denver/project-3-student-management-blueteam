@@ -55,7 +55,7 @@
                 <td>{{ student.student_name }}</td> 
                 <td>{{ student.major }}</td>
                 <td>{{ student.academic_year|capitalize }}</td>
-                <td>{{ student.total_gpa }}</td>
+                <td>{{ student.total_gpa|round(2)}}</td>
                 <td>{{ student.total_credits }}</td>
                 <td>                                   
                     <form action="{{ url_for('view_transcript', student_id=student.student_id) }}" method="GET" style="display: inline;">

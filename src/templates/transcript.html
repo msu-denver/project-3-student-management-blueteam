@@ -16,11 +16,13 @@
             </tr>
         </thead>
         <tbody>
-            {% for grade in grades %}
+            {% set correct_order = ['Freshman', 'Sophomore', 'Junior', 'Senior'] %}
+            {% for semester in correct_order %}
+                {% set grade = grades | selectattr('semester', 'equalto', semester) | first %}
                 <tr>
-                    <td>{{ grade.semester }}</td>
-                    <td>{{ grade.gpa }}</td>
-                    <td>{{ grade.credits }}</td>
+                    <td>{{ semester }}</td>
+                    <td>{{ grade.gpa if grade else 0.0 }}</td>
+                    <td>{{ grade.credits if grade else 0 }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -29,5 +31,5 @@
     <h3>Total GPA: {{ total_gpa }}</h3>
     <h3>Total Credits: {{ total_credits }}</h3>
 
-    <button onclick="window.location.href='{{ url_for('list_student') }}'">Back to Student List</button>
+    <button type="button" class="button" onclick="window.location.href='{{ url_for('list_student') }}'">Back to Student List</button>
 {% endblock %}
