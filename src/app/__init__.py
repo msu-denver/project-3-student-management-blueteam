@@ -19,7 +19,7 @@ db = SQLAlchemy()
 
 #flask run
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Managements.db'
-#b = SQLAlchemy(app)
+#db = SQLAlchemy(app)
 
 #Docker compose up
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:135791@postgres:5432/authentication?client_encoding=utf8'
