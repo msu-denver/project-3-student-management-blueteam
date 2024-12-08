@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block main %}
+    User ID Taken
+    <p>The user ID you entered is already taken. Please choose another ID.</p>
+    <a href="{{ url_for('signup') }}">Back to Sign Up</a>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block main %}
+
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+<h1>Manage Grades for {{ student.student_name }}</h1>
+<p><strong>Current Academic Year:</strong> {{ student.academic_year|capitalize }}</p>
+
+<h2>Existing Grades</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Semester</th>
+            <th>GPA</th>
+            <th>Credits</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for grade in grades %}
+        <tr>
+            <td>{{ grade.semester }}</td>
+            <td>{{ grade.gpa }}</td>
+            <td>{{ grade.credits }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Add or Update Grades</h2>
+<form method="POST" onsubmit="return validateForm()">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.semester.label }}<br>
+        {{ form.semester }}
+    </p>
+    <p>
+        {{ form.gpa.label }}<br>
+        <input type="number" step="0.01" min="0.0" max="4.0" id="gpa" name="gpa" required>
+        <small id="gpa-error" style="color: red; display: none;">GPA must be between 0.0 and 4.0</small>
+    </p>
+    <p>
+        {{ form.credits.label }}<br>
+        <input type="number" min="0" id="credits" name="credits" required>
+        <small id="credits-error" style="color: red; display: none;">Credits cannot be negative</small>
+    </p>
+    <p>{{ form.submit() }}</p>
+</form>
+
+<script>
+    function validateForm() {
+        const gpaInput = document.getElementById("gpa");
+        const creditsInput = document.getElementById("credits");
+
+        const gpa = parseFloat(gpaInput.value);
+        const credits = parseInt(creditsInput.value);
+
+        let isValid = true;
+
+        // Validate GPA
+        const gpaError = document.getElementById("gpa-error");
+        if (gpa < 0 || gpa > 4.0 || isNaN(gpa)) {
+            gpaError.style.display = "inline";
+            isValid = false;
+        } else {
+            gpaError.style.display = "none";
+        }
+
+        // Validate Credits
+        const creditsError = document.getElementById("credits-error");
+        if (credits < 0 || isNaN(credits)) {
+            creditsError.style.display = "inline";
+            isValid = false;
+        } else {
+            creditsError.style.display = "none";
+        }
+
+        return isValid;
+    }
+</script>
+
+<button type="button" class="button" onclick="window.location.href='{{ url_for('view_transcript', student_id=student.student_id) }}'">View Transcript</button>
+{% endblock %}

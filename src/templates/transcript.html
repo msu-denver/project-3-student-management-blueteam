@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block main %}
+    <h1>Transcript for {{ student.student_name }}</h1>
+    <p><strong>Student ID:</strong> {{ student.student_id }}</p>
+    <p><strong>Enrollment Date:</strong> {{ student.enrollment_date }}</p>
+    <p><strong>Major:</strong> {{ student.major }}</p>
+    <p><strong>Academic Year:</strong> {{ student.academic_year|capitalize }}</p>
+
+    <h2>Grade Details</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>GPA</th>
+                <th>Credits</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set correct_order = ['Freshman', 'Sophomore', 'Junior', 'Senior'] %}
+            {% for semester in correct_order %}
+                {% set grade = grades | selectattr('semester', 'equalto', semester) | first %}
+                <tr>
+                    <td>{{ semester }}</td>
+                    <td>{{ grade.gpa if grade else 0.0 }}</td>
+                    <td>{{ grade.credits if grade else 0 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Total GPA: {{ total_gpa }}</h3>
+    <h3>Total Credits: {{ total_credits }}</h3>
+
+    <button type="button" class="button" onclick="window.location.href='{{ url_for('list_student') }}'">Back to Student List</button>
+{% endblock %}

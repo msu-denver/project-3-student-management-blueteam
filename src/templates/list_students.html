@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block main %}
+
+{% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <div>
+        <p>Page {{ current_page }} of {{ total_pages }}</p>
+
+        <form action="{{ url_for('list_student') }}" method="GET">
+            <label for="page">Go to page:</label>
+            <input type="number" id="page" name="page" min="1" max="{{ total_pages }}" value="{{ current_page }}" required>
+            <button type="submit">Go</button>
+        </form>
+    </div>
+    <p>
+    <div >
+        {% if students.has_prev %}
+            <a href="{{ url_for('list_student', page=students.prev_num, student_id=request.args.student_id, student_name=request.args.student_name, academic_year=request.args.academic_year, major=request.args.major, total_gpa=request.args.total_gpa, total_credits=request.args.total_credits, enrollment_date=request.args.enrollment_date) }}" >Previous</a>
+        {% endif %}
+        {% if students.has_next %}
+            <a href="{{ url_for('list_student', page=students.next_num, student_id=request.args.student_id, student_name=request.args.student_name, academic_year=request.args.academic_year, major=request.args.major, total_gpa=request.args.total_gpa, total_credits=request.args.total_credits, enrollment_date=request.args.enrollment_date) }}" >Next</a>
+        {% endif %}
+    </div>
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Major</th>
+                <th>Academic Year</th>
+                <th>Total GPA</th>
+                <th>Total Credits</th>
+                <th>Action</th>
+                <th>Graduation Check</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for student in students.items %}
+            {% if loop.index % 2 == 0 %}
+                <tr class="even_row">
+            {% else %}
+                <tr class="odd_row">
+            {% endif %}
+                <td><a href="{{ url_for('update_student', id=student.student_id) }}">{{ student.student_id }}</a></td>
+                <td>{{ student.student_name }}</td> 
+                <td>{{ student.major }}</td>
+                <td>{{ student.academic_year|capitalize }}</td>
+                <td>{{ student.total_gpa|round(2)}}</td>
+                <td>{{ student.total_credits }}</td>
+                <td>                                   
+                    <form action="{{ url_for('view_transcript', student_id=student.student_id) }}" method="GET" style="display: inline;">
+                        <button type="submit" class="button">View transcript</button>
+                    </form>
+
+                    <form action="{{ url_for('manage_grades', student_id=student.student_id) }}" method="GET" style="display: inline;">
+                        <button type="submit" class="button">Grade Management</button>
+                    </form>
+
+                    <form action="{{ url_for('delete_student', id=student.student_id) }}" method="POST" style="display: inline;">
+                        <button type="submit" class="button" onclick="return confirm('Are you sure?');">Delete</button>
+                    </form>
+                </td>
+                <td>
+                    <div class="graduation-check-container">
+                        <button onclick="checkGraduation({{ student.student_id }})" class="button">Request Graduation</button>
+                        <div style="display: flex; align-items: center; gap: 5px; margin-top: 5px;">
+                            <span id="graduation-light-green-{{ student.student_id }}" class="graduation-light gray-light">O</span>
+                            <span id="graduation-light-red-{{ student.student_id }}" class="graduation-light gray-light">O</span>
+                            <span id="graduation-status-{{ student.student_id }}" class="graduation-status" style="display: none;">Pending...</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <p />
+    <button type="button" class="button" onclick="simple_action('{{ url_for('create_student') }}')">Create Student</button>
+    <button type="button" class="button" onclick="simple_action('{{ url_for('search_student') }}')">Search Student</button>
+    <button type="button" class="button" onclick="simple_action('{{ url_for('list_student') }}')">Refresh list</button>
+    <button type="button" class="button" onclick="simple_action('{{ url_for('signout') }}')">Sign Out</button>
+
+<script>
+    function simple_action(target) {
+        window.location.href = target;
+    }
+
+    function checkGraduation(studentId) {
+        fetch(`/students/${studentId}/graduation_check`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                const greenLight = document.getElementById(`graduation-light-green-${studentId}`);
+                const redLight = document.getElementById(`graduation-light-red-${studentId}`);
+                const statusText = document.getElementById(`graduation-status-${studentId}`);
+    
+                greenLight.className = "graduation-light gray-light";
+                redLight.className = "graduation-light gray-light";  
+
+                statusText.style.display = "block"
+    
+                if (data.eligible) {
+                    greenLight.className = "graduation-light green-light";
+                    statusText.textContent = "Granted graduation";
+                    alert(`Congratulations!! Graduation Granted!\nReason: GPA > 2.0\nCredits > 120`);
+                } else {
+                    redLight.className = "graduation-light red-light";
+                    statusText.textContent = "Denied graduation";
+                    alert(
+                        `Graduation Denied.\nReason:\nAcademic year requires senior\nGPA must be > 2.0 \nCredits must be > 120`
+                    );
+                }
+            })
+            .catch((error) => console.error("Error:", error));
+    }
+</script>
+
+{% endblock %}

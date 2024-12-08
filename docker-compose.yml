@@ -1,0 +1,34 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    ports: 
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=authentication
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=135791
+    volumes: 
+      - C:\Users\zhao1\project-3-student-management-blueteam\postgres:/var/lib/postgresql/data
+      #- /Users/emilymelendez/Downloads/cs3250/inclass/project-3-student-management-blueteam/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 60s
+      retries: 5
+      start_period: 80s 
+  myapp:
+    build: .
+    ports:
+      - 5000:5000   
+    volumes:
+      - ./src:/app/src 
+    environment:
+      - FLASK_ENV=development 
+      - FLASK_APP=app
+      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:135791@postgres:5432/authentication
+    depends_on:
+      postgres:
+        condition: service_healthy
+  
+  

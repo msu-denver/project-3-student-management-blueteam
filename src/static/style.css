@@ -1,0 +1,116 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: medium;
+}
+
+h1 {
+  color: navy;
+  margin-left: 20px;
+}
+
+table, th, td {
+  border: 1px solid;
+  padding: 5px
+}
+
+th {
+  background-color: darkblue;
+  color: white
+}
+
+input[type=submit] {
+  background-color: darkblue;
+  color: white;
+}
+
+
+
+.odd_row {
+  background-color: white;
+}
+
+.even_row {
+  background-color: lightgray;
+}
+
+.button {
+  background-color: darkblue;
+  color: white;
+}
+
+.flashes {
+  list-style-type: none;
+  padding: 0;
+}
+
+.flashes li {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.flashes .success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.flashes .error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.error-message {
+  color: red;
+  opacity: 1;
+  margin-left: 10px;
+  display: inline-block;
+  transition: opacity 1s ease;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px; 
+  align-items: center; 
+}
+
+.graduation-light {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.gray-light {
+  background-color: gray;
+  color: white;
+}
+
+.green-light {
+  background-color: green;
+  color: white;
+}
+
+.red-light {
+  background-color: red;
+  color: white;
+}
+
+.graduation-status {
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.readonly-input {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+  color: #6c757d;
+}

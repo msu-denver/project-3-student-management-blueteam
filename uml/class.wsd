@@ -1,0 +1,38 @@
+@startuml Class Diagram
+
+class User {
+    id
+    name
+    about
+    passwd
+}
+
+class Major { 
+    id
+    name
+}
+
+class Student {
+    enrollment_date 
+    student_id 
+    student_name
+    academic_year
+    total_gpa
+    total_credits
+}
+
+class Grade {
+    student_id
+    semester
+    gpa
+    credits
+}
+
+User -[hidden]-> Student
+Student -[hidden]-> Major
+Major -[hidden]-> Grade
+
+Student "N" o-> "1" Major: major
+Grade "N" o--> "1" Student: student
+
+@enduml

@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block main %}
+    Login Error
+    <p>The password or ID you entered is incorrect. Please try again.</p>
+    <a href="{{ url_for('login') }}">Back to Login</a>
+{% endblock %}
