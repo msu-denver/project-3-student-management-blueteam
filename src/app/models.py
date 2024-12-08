@@ -10,6 +10,7 @@ from app import db
 from datetime import date
 
 
+# User model
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.String, primary_key=True)
@@ -18,6 +19,7 @@ class User(db.Model, UserMixin):
     passwd = db.Column(db.LargeBinary)
 
 
+# Major model
 class Major(db.Model):
     __tablename__ = 'majors'
     id = db.Column(db.Integer, primary_key=True)
@@ -27,6 +29,7 @@ class Major(db.Model):
         return f"<Major(id={self.id}, name='{self.name}')>"
 
 
+# Student model
 class Student(db.Model):
     __tablename__ = 'students'
     enrollment_date = db.Column(db.Date, nullable=False, default=date.today)
@@ -46,6 +49,7 @@ class Student(db.Model):
         )
 
 
+# Grade model
 class Grade(db.Model):
     __tablename__ = 'grades'
 
